@@ -41,14 +41,24 @@ const METHODS = [
     tags: ["REST", "Без доработок", "Быстрый старт"],
   },
   {
-    code: "MQ",
-    name: "Обмен через очередь",
-    desc: "Асинхронный обмен данными через брокеры сообщений: RabbitMQ, Kafka, ActiveMQ.",
-    pros: ["Надёжность доставки", "Асинхронность", "Масштабируемость"],
-    cons: ["Нужен брокер сообщений", "Сложная настройка", "Задержка обработки"],
-    speed: 50,
-    difficulty: 80,
-    tags: ["Асинхронно", "Масштаб", "Enterprise"],
+    code: "ШИНА",
+    name: "1С:Шина",
+    desc: "Платформенное решение 1С для асинхронного обмена данными между информационными базами и внешними системами.",
+    pros: ["Нативная интеграция с 1С", "Гарантированная доставка", "Мониторинг из коробки"],
+    cons: ["Отдельная лицензия 1С:Шина", "Требует инфраструктуры", "Только экосистема 1С"],
+    speed: 55,
+    difficulty: 50,
+    tags: ["1С:Шина", "Асинхронно", "Платформенно"],
+  },
+  {
+    code: "HTTPREQ",
+    name: "HTTP-запросы из 1С",
+    desc: "Исходящие HTTP/HTTPS запросы из кода 1С к внешним REST/SOAP API с помощью объекта HTTPСоединение.",
+    pros: ["Встроен в платформу", "Гибкость запросов", "Без внешних компонент"],
+    cons: ["Только исходящие запросы", "Нет очереди повторов", "Блокирует транзакцию"],
+    speed: 75,
+    difficulty: 35,
+    tags: ["REST/SOAP", "Исходящий", "Встроено"],
   },
   {
     code: "DB",
@@ -88,8 +98,8 @@ const CASES = [
     title: "Производство → ERP",
     company: "Завод «Метиз»",
     challenge: "Передача производственных заданий из SAP в 1С:Управление производством",
-    solution: "RabbitMQ + обработчик на стороне 1С",
-    method: "MQ",
+    solution: "1С:Шина — асинхронная очередь между SAP и 1С",
+    method: "ШИНА",
     result: "Исключён ручной ввод 400+ документов в день",
     time: "2 месяца",
   },
@@ -119,7 +129,8 @@ const METHOD_COLORS: Record<string, string> = {
   COM: "bg-foreground text-background",
   HTTP: "bg-accent text-white",
   ODATA: "bg-foreground text-background",
-  MQ: "bg-accent text-white",
+  ШИНА: "bg-accent text-white",
+  HTTPREQ: "bg-foreground text-background",
   DB: "bg-foreground text-background",
   FILE: "bg-foreground text-background",
 };
@@ -167,11 +178,11 @@ function getRecommendation(answers: Record<string, string>): string[] {
   const { network, direction, speed, dev } = answers;
   if (dev === "none" && speed !== "realtime") return ["ODATA", "FILE"];
   if (network === "local" && dev === "expert" && speed === "realtime") return ["COM", "HTTP"];
-  if (speed === "realtime" && network !== "local") return ["HTTP", "MQ"];
-  if (speed === "batch") return ["FILE", "ODATA"];
-  if (direction === "both" && speed !== "batch") return ["MQ", "HTTP"];
+  if (speed === "realtime" && network !== "local") return ["HTTPREQ", "HTTP"];
+  if (speed === "batch") return ["FILE", "ШИНА"];
+  if (direction === "both" && speed !== "batch") return ["ШИНА", "HTTPREQ"];
   if (network === "local") return ["COM", "HTTP"];
-  return ["HTTP", "ODATA"];
+  return ["HTTPREQ", "ODATA"];
 }
 
 export default function Index() {
