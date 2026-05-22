@@ -860,84 +860,51 @@ export default function Index() {
               <p className="text-sm text-muted-foreground mb-8">
                 Цены актуальны для покупки через партнёров 1С. Стоимость может отличаться в зависимости от региона и условий партнёра.
               </p>
-              <div className="grid md:grid-cols-3 gap-px bg-border">
+              <div className="border border-border divide-y divide-border">
                 {[
                   {
-                    name: "1С:Шина",
-                    subtitle: "Базовая поставка",
-                    price: "180 000 ₽",
-                    period: "бессрочно",
+                    name: "1С:Шина для 100 пользователей",
+                    subtitle: "Электронная поставка",
+                    price: "153 500",
                     highlight: false,
-                    features: [
-                      "До 10 подключённых узлов",
-                      "Очередь сообщений",
-                      "Журнал обмена",
-                      "Поддержка 1 год включена",
-                      "Развёртывание на своём сервере",
-                    ],
-                    note: "",
                   },
                   {
-                    name: "1С:Шина КОРП",
-                    subtitle: "Расширенная поставка",
-                    price: "360 000 ₽",
-                    period: "бессрочно",
+                    name: "1С:Шина для 500 пользователей",
+                    subtitle: "Электронная поставка",
+                    price: "306 800",
                     highlight: true,
-                    features: [
-                      "Неограниченное число узлов",
-                      "Расширенный мониторинг",
-                      "Кластеризация и отказоустойчивость",
-                      "Приоритетная техподдержка 1 год",
-                      "Аудит и ролевая безопасность",
-                    ],
-                    note: "Рекомендуем для 5+ систем",
                   },
                   {
-                    name: "Продление ИТС",
-                    subtitle: "Поддержка и обновления",
-                    price: "от 25 000 ₽",
-                    period: "в год",
+                    name: "1С:Шина без ограничений на число пользователей",
+                    subtitle: "Электронная поставка",
+                    price: "766 800",
                     highlight: false,
-                    features: [
-                      "Обновления платформы и шины",
-                      "Доступ к линии консультаций",
-                      "Актуальные адаптеры для типовых конфигураций",
-                      "Документация и базы знаний",
-                    ],
-                    note: "Обязателен для обновлений",
                   },
                 ].map((plan) => (
                   <div
                     key={plan.name}
-                    className={`bg-background p-6 flex flex-col ${plan.highlight ? "ring-2 ring-inset ring-foreground" : ""}`}
+                    className={`flex items-center justify-between px-6 py-5 ${plan.highlight ? "bg-secondary/40" : "bg-background"}`}
                   >
-                    {plan.highlight && (
-                      <span className="font-mono text-xs bg-foreground text-background px-2 py-0.5 self-start mb-4">
-                        Популярный выбор
-                      </span>
-                    )}
-                    <p className="font-mono text-xs text-muted-foreground uppercase mb-1">{plan.subtitle}</p>
-                    <p className="font-bold text-base mb-1">{plan.name}</p>
-                    <div className="flex items-baseline gap-1.5 mt-3 mb-1">
-                      <span className="font-black text-3xl tracking-tight">{plan.price}</span>
+                    <div className="flex items-center gap-4">
+                      {plan.highlight && (
+                        <span className="font-mono text-xs bg-foreground text-background px-2 py-0.5 flex-shrink-0">
+                          Популярный
+                        </span>
+                      )}
+                      <div>
+                        <p className="font-semibold text-sm">{plan.name}</p>
+                        <p className="font-mono text-xs text-muted-foreground mt-0.5">{plan.subtitle}</p>
+                      </div>
                     </div>
-                    <p className="font-mono text-xs text-muted-foreground mb-6">{plan.period}</p>
-                    <ul className="space-y-2 flex-1">
-                      {plan.features.map((f) => (
-                        <li key={f} className="text-sm flex items-start gap-2">
-                          <Icon name="Check" size={13} className="text-foreground mt-0.5 flex-shrink-0" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {plan.note && (
-                      <p className="font-mono text-xs text-accent mt-4">{plan.note}</p>
-                    )}
+                    <div className="text-right flex-shrink-0 ml-8">
+                      <span className="font-black text-2xl tracking-tight">{plan.price}</span>
+                      <span className="text-sm text-muted-foreground ml-1.5">руб.</span>
+                    </div>
                   </div>
                 ))}
               </div>
               <p className="font-mono text-xs text-muted-foreground mt-4">
-                * Цены указаны ориентировочно. Уточняйте актуальную стоимость у официальных партнёров 1С на сайте its.1c.ru
+                * Электронная поставка. Цены уточняйте у официальных партнёров 1С на сайте its.1c.ru
               </p>
             </div>
 
