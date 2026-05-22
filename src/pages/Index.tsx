@@ -854,7 +854,94 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="p-6 border border-border bg-secondary/20 flex items-center justify-between">
+            {/* Расценки */}
+            <div className="border border-border bg-background p-8 mb-px">
+              <p className="font-mono text-xs text-muted-foreground uppercase mb-2">Расценки</p>
+              <p className="text-sm text-muted-foreground mb-8">
+                Цены актуальны для покупки через партнёров 1С. Стоимость может отличаться в зависимости от региона и условий партнёра.
+              </p>
+              <div className="grid md:grid-cols-3 gap-px bg-border">
+                {[
+                  {
+                    name: "1С:Шина",
+                    subtitle: "Базовая поставка",
+                    price: "180 000 ₽",
+                    period: "бессрочно",
+                    highlight: false,
+                    features: [
+                      "До 10 подключённых узлов",
+                      "Очередь сообщений",
+                      "Журнал обмена",
+                      "Поддержка 1 год включена",
+                      "Развёртывание на своём сервере",
+                    ],
+                    note: "",
+                  },
+                  {
+                    name: "1С:Шина КОРП",
+                    subtitle: "Расширенная поставка",
+                    price: "360 000 ₽",
+                    period: "бессрочно",
+                    highlight: true,
+                    features: [
+                      "Неограниченное число узлов",
+                      "Расширенный мониторинг",
+                      "Кластеризация и отказоустойчивость",
+                      "Приоритетная техподдержка 1 год",
+                      "Аудит и ролевая безопасность",
+                    ],
+                    note: "Рекомендуем для 5+ систем",
+                  },
+                  {
+                    name: "Продление ИТС",
+                    subtitle: "Поддержка и обновления",
+                    price: "от 25 000 ₽",
+                    period: "в год",
+                    highlight: false,
+                    features: [
+                      "Обновления платформы и шины",
+                      "Доступ к линии консультаций",
+                      "Актуальные адаптеры для типовых конфигураций",
+                      "Документация и базы знаний",
+                    ],
+                    note: "Обязателен для обновлений",
+                  },
+                ].map((plan) => (
+                  <div
+                    key={plan.name}
+                    className={`bg-background p-6 flex flex-col ${plan.highlight ? "ring-2 ring-inset ring-foreground" : ""}`}
+                  >
+                    {plan.highlight && (
+                      <span className="font-mono text-xs bg-foreground text-background px-2 py-0.5 self-start mb-4">
+                        Популярный выбор
+                      </span>
+                    )}
+                    <p className="font-mono text-xs text-muted-foreground uppercase mb-1">{plan.subtitle}</p>
+                    <p className="font-bold text-base mb-1">{plan.name}</p>
+                    <div className="flex items-baseline gap-1.5 mt-3 mb-1">
+                      <span className="font-black text-3xl tracking-tight">{plan.price}</span>
+                    </div>
+                    <p className="font-mono text-xs text-muted-foreground mb-6">{plan.period}</p>
+                    <ul className="space-y-2 flex-1">
+                      {plan.features.map((f) => (
+                        <li key={f} className="text-sm flex items-start gap-2">
+                          <Icon name="Check" size={13} className="text-foreground mt-0.5 flex-shrink-0" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    {plan.note && (
+                      <p className="font-mono text-xs text-accent mt-4">{plan.note}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <p className="font-mono text-xs text-muted-foreground mt-4">
+                * Цены указаны ориентировочно. Уточняйте актуальную стоимость у официальных партнёров 1С на сайте its.1c.ru
+              </p>
+            </div>
+
+            <div className="p-6 border border-border bg-secondary/20 flex items-center justify-between mb-8">
               <div>
                 <p className="font-semibold text-sm mb-1">Подходит ли 1С:Шина для вашей задачи?</p>
                 <p className="text-sm text-muted-foreground">Пройдите алгоритм подбора — он учтёт все ваши условия</p>
