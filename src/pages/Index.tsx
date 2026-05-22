@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
-type Section = "home" | "methods" | "cases" | "wizard";
+type Section = "home" | "methods" | "cases" | "wizard" | "shina";
 
 const NAV_ITEMS = [
   { id: "home" as Section, label: "Главная" },
   { id: "methods" as Section, label: "Методы" },
   { id: "cases" as Section, label: "Кейсы" },
+  { id: "shina" as Section, label: "1С:Шина" },
 ];
 
 const METHODS = [
@@ -655,6 +656,216 @@ export default function Index() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* SHINA */}
+        {section === "shina" && (
+          <div className="max-w-6xl mx-auto px-6 py-16">
+            <div className="mb-12">
+              <p className="font-mono text-xs text-muted-foreground tracking-widest uppercase mb-3">Архитектура</p>
+              <h1 className="text-4xl font-black tracking-tight mb-4">1С:Шина</h1>
+              <p className="text-muted-foreground max-w-xl">
+                Платформенный продукт фирмы «1С» для надёжного асинхронного обмена данными — без сторонних брокеров и middleware.
+              </p>
+            </div>
+
+            {/* Что такое */}
+            <div className="grid md:grid-cols-2 gap-px border border-border bg-border mb-px">
+              <div className="bg-background p-8">
+                <p className="font-mono text-xs text-muted-foreground uppercase mb-4">Что такое 1С:Шина</p>
+                <p className="text-sm leading-relaxed mb-4">
+                  1С:Шина — это программный продукт фирмы «1С», реализующий паттерн Enterprise Service Bus (ESB) средствами платформы 1С:Предприятие. Он выступает центральным узлом обмена: все системы подключаются к шине, а не друг к другу напрямую.
+                </p>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  В отличие от сторонних брокеров (RabbitMQ, Kafka), 1С:Шина разворачивается как обычная база 1С, администрируется стандартными инструментами и не требует отдельной экспертизы.
+                </p>
+              </div>
+              <div className="bg-background p-8">
+                <p className="font-mono text-xs text-muted-foreground uppercase mb-4">Когда применять</p>
+                <ul className="space-y-3">
+                  {[
+                    "Несколько баз 1С нужно синхронизировать между собой",
+                    "Внешние системы (CRM, ERP, сайт) обмениваются с 1С",
+                    "Нужна гарантия доставки и журнал всех сообщений",
+                    "Команда работает только в экосистеме 1С",
+                    "Требуется централизованный мониторинг обменов",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm">
+                      <Icon name="Check" size={14} className="text-accent mt-0.5 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Архитектурная схема */}
+            <div className="border border-border bg-background p-8 mb-px">
+              <p className="font-mono text-xs text-muted-foreground uppercase mb-8">Схема работы</p>
+              <div className="flex flex-col items-center gap-0">
+                {/* Источники */}
+                <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
+                  {[
+                    { label: "1С:Бухгалтерия", icon: "Database" },
+                    { label: "Интернет-магазин", icon: "Globe" },
+                    { label: "CRM-система", icon: "Users" },
+                  ].map((node) => (
+                    <div key={node.label} className="flex flex-col items-center gap-2">
+                      <div className="w-full border border-border p-3 flex flex-col items-center gap-2 bg-secondary/30">
+                        <Icon name={node.icon} size={18} className="text-muted-foreground" fallback="Box" />
+                        <span className="font-mono text-xs text-center leading-tight">{node.label}</span>
+                      </div>
+                      <div className="w-px h-6 bg-border" />
+                      <Icon name="ArrowDown" size={12} className="text-muted-foreground -mt-4" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Шина */}
+                <div className="w-full max-w-2xl mt-2">
+                  <div className="border-2 border-foreground bg-foreground text-background p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 border border-background/30 flex items-center justify-center">
+                        <Icon name="Workflow" size={16} fallback="GitBranch" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm">1С:Шина</p>
+                        <p className="font-mono text-xs text-background/60">Маршрутизация · Очередь · Журнал</p>
+                      </div>
+                    </div>
+                    <span className="font-mono text-xs text-background/60 border border-background/20 px-2 py-0.5">ESB</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 mt-0">
+                    {[0, 1, 2].map((i) => (
+                      <div key={i} className="flex flex-col items-center">
+                        <div className="w-px h-6 bg-border" />
+                        <Icon name="ArrowDown" size={12} className="text-muted-foreground" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Получатели */}
+                <div className="grid grid-cols-3 gap-4 w-full max-w-2xl mt-0">
+                  {[
+                    { label: "1С:УТ", icon: "ShoppingCart" },
+                    { label: "1С:ЗУП", icon: "UserCheck" },
+                    { label: "Внешняя система", icon: "Server" },
+                  ].map((node) => (
+                    <div key={node.label} className="border border-border p-3 flex flex-col items-center gap-2 bg-secondary/30">
+                      <Icon name={node.icon} size={18} className="text-muted-foreground" fallback="Box" />
+                      <span className="font-mono text-xs text-center leading-tight">{node.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Ключевые компоненты */}
+            <div className="border border-border bg-background p-8 mb-px">
+              <p className="font-mono text-xs text-muted-foreground uppercase mb-6">Ключевые компоненты</p>
+              <div className="grid md:grid-cols-3 gap-px bg-border">
+                {[
+                  {
+                    icon: "Inbox",
+                    title: "Очередь сообщений",
+                    desc: "Сообщения сохраняются в базе данных шины и обрабатываются последовательно. При сбое — автоматический повтор.",
+                  },
+                  {
+                    icon: "GitBranch",
+                    title: "Маршрутизатор",
+                    desc: "Определяет, какой получатель должен получить сообщение на основании типа объекта и правил конфигурации.",
+                  },
+                  {
+                    icon: "ScrollText",
+                    title: "Журнал обмена",
+                    desc: "Полная история всех переданных сообщений: статус, время, содержимое, ошибки — доступно из интерфейса 1С.",
+                  },
+                  {
+                    icon: "Plug",
+                    title: "Адаптеры",
+                    desc: "Готовые подключения для типовых конфигураций 1С. Внешние системы подключаются через REST или SOAP.",
+                  },
+                  {
+                    icon: "RefreshCw",
+                    title: "Транзакционность",
+                    desc: "Гарантия «ровно один раз»: дубликаты исключены, порядок сообщений сохранён.",
+                  },
+                  {
+                    icon: "Monitor",
+                    title: "Мониторинг",
+                    desc: "Дашборд состояния очередей, алерты на зависшие сообщения, статистика по узлам — всё в одном месте.",
+                  },
+                ].map((c) => (
+                  <div key={c.title} className="bg-background p-6">
+                    <div className="w-9 h-9 border border-border flex items-center justify-center mb-4">
+                      <Icon name={c.icon} size={16} fallback="Box" />
+                    </div>
+                    <p className="font-semibold text-sm mb-2">{c.title}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Сравнение с прямой интеграцией */}
+            <div className="border border-border bg-background p-8 mb-8">
+              <p className="font-mono text-xs text-muted-foreground uppercase mb-6">1С:Шина vs. прямая интеграция</p>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <p className="font-semibold text-sm mb-4 flex items-center gap-2">
+                    <span className="w-5 h-5 bg-foreground text-background flex items-center justify-center font-mono text-xs">✓</span>
+                    С 1С:Шиной
+                  </p>
+                  <ul className="space-y-3">
+                    {[
+                      "Все системы подключены к одной точке — легко добавлять новые",
+                      "Сбой одной системы не блокирует остальные",
+                      "Полная история обменов без дополнительных усилий",
+                      "Изменение формата данных — только в одном месте",
+                    ].map((item) => (
+                      <li key={item} className="text-sm flex items-start gap-2">
+                        <Icon name="Check" size={13} className="text-foreground mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm mb-4 flex items-center gap-2">
+                    <span className="w-5 h-5 bg-border flex items-center justify-center font-mono text-xs text-muted-foreground">×</span>
+                    Без шины (точка-точка)
+                  </p>
+                  <ul className="space-y-3">
+                    {[
+                      "При N системах нужно поддерживать N×(N-1) соединений",
+                      "Каждая интеграция — отдельный код, отдельные ошибки",
+                      "Нет единого журнала — сложно отследить сбой",
+                      "Изменение формата ломает все смежные интеграции",
+                    ].map((item) => (
+                      <li key={item} className="text-sm flex items-start gap-2 text-muted-foreground">
+                        <Icon name="X" size={13} className="text-muted-foreground mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border border-border bg-secondary/20 flex items-center justify-between">
+              <div>
+                <p className="font-semibold text-sm mb-1">Подходит ли 1С:Шина для вашей задачи?</p>
+                <p className="text-sm text-muted-foreground">Пройдите алгоритм подбора — он учтёт все ваши условия</p>
+              </div>
+              <button
+                onClick={() => setSection("wizard")}
+                className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background font-semibold text-sm hover:bg-foreground/80 transition-colors"
+              >
+                Подобрать метод <Icon name="ArrowRight" size={14} />
+              </button>
+            </div>
           </div>
         )}
 
