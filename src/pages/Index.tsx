@@ -210,6 +210,12 @@ export default function Index() {
   };
 
   const recommendations = wizardDone ? getRecommendation(wizardAnswers) : [];
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNav = (id: Section) => {
+    setSection(id);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -223,11 +229,12 @@ export default function Index() {
             <span className="font-semibold text-sm tracking-tight">Интеграции</span>
           </div>
 
-          <div className="flex items-center gap-1">
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center gap-1">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setSection(item.id)}
+                onClick={() => handleNav(item.id)}
                 className={`px-4 py-1.5 text-sm font-medium transition-colors ${
                   section === item.id
                     ? "bg-foreground text-background"
@@ -238,7 +245,7 @@ export default function Index() {
               </button>
             ))}
             <button
-              onClick={() => setSection("wizard")}
+              onClick={() => handleNav("wizard")}
               className={`ml-2 px-4 py-1.5 text-sm font-medium border transition-colors ${
                 section === "wizard"
                   ? "bg-accent text-white border-accent"
@@ -248,7 +255,49 @@ export default function Index() {
               Подобрать метод
             </button>
           </div>
+
+          {/* Mobile burger */}
+          <button
+            className="md:hidden flex items-center justify-center w-9 h-9 hover:bg-secondary transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Меню"
+          >
+            <Icon name={menuOpen ? "X" : "Menu"} size={20} />
+          </button>
         </div>
+
+        {/* Mobile dropdown */}
+        {menuOpen && (
+          <div className="md:hidden border-t border-border bg-background animate-fade-in">
+            <div className="max-w-6xl mx-auto px-6 py-3 flex flex-col gap-1">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleNav(item.id)}
+                  className={`flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors text-left ${
+                    section === item.id
+                      ? "bg-foreground text-background"
+                      : "text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  {item.label}
+                  {section === item.id && <Icon name="Check" size={14} />}
+                </button>
+              ))}
+              <button
+                onClick={() => handleNav("wizard")}
+                className={`flex items-center justify-between px-4 py-3 text-sm font-semibold border transition-colors mt-1 ${
+                  section === "wizard"
+                    ? "bg-accent text-white border-accent"
+                    : "border-foreground text-foreground hover:bg-foreground hover:text-background"
+                }`}
+              >
+                Подобрать метод
+                <Icon name="Sparkles" size={14} />
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
       <div className="pt-14">
